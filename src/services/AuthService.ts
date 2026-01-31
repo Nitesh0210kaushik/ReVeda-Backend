@@ -111,7 +111,36 @@ class AuthService {
         return user;
     }
 
-    // verifyOTP remains same
+    async verifyOTP(identifier: string, otp: string) {
+        const user = await userRepository.findByEmailOrPhone(identifier);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        if (!user.otp || user.otp !== otp) {
+            throw new Error('Invalid OTP');
+        }
+
+        if (!user.otpExpiry || new Date() > user.otpExpiry) {
+            throw new Error('OTP expired');
+        }
+
+        // Clear OTP
+        user.otp = undefined;
+        user.otpExpiry = undefined;
+
+        // Verify user if not verified
+        if (!user.isVerified) {
+            user.isVerified = true;
+        }
+
+        await user.save();
+
+        // Generate tokens
+        const tokens = jwtService.generateTokens(user);
+
+        return { user, tokens };
+    }
 
     async resendOTP(identifier: string) {
         const user = await userRepository.findByEmailOrPhone(identifier);
