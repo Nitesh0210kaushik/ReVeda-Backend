@@ -7,7 +7,9 @@ export class OTPService {
     // Only initialize transporter if email credentials are provided
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       this.transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
@@ -66,13 +68,13 @@ export class OTPService {
     try {
       // Mock SMS sending - replace with actual SMS service
       console.log(`📱 SMS OTP sent to ${phoneNumber}: ${otp}`);
-      
+
       // For production, integrate with services like:
       // - Twilio
       // - AWS SNS
       // - MSG91
       // - TextLocal
-      
+
       return true;
     } catch (error) {
       console.error('Error sending OTP SMS:', error);

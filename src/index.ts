@@ -27,6 +27,7 @@ app.use(helmet({
 // CORS configuration
 const allowedOrigins = [
     'http://localhost:3000', // Development Frontend
+    'https://reveda-doctor-form.onrender.com', // Doctor Registration Website
     process.env.FRONTEND_URL // Production Frontend
 ].filter(Boolean);
 

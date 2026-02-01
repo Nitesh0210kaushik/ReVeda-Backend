@@ -186,6 +186,28 @@ class AuthService {
     }
 
     async loginWithGoogle(idToken: string) {
+        // Mock Login for Development
+        if (process.env.NODE_ENV === 'development' && idToken === 'mock-google-id-token-dev') {
+            const user = await userRepository.findByEmail('test.user@example.com');
+            if (user) {
+                const tokens = jwtService.generateTokens(user);
+                return { user, tokens };
+            }
+            // Create mock user if not exists
+            const patientRole = await roleRepository.findByName('Patient');
+            const newUser = await userRepository.create({
+                firstName: 'Test',
+                lastName: 'User',
+                email: 'test.user@example.com',
+                phoneNumber: '9999999999',
+                role: patientRole?._id,
+                isVerified: true,
+                googleId: 'mock-google-id'
+            } as any);
+            const tokens = jwtService.generateTokens(newUser);
+            return { user: newUser, tokens };
+        }
+
         const { OAuth2Client } = require('google-auth-library');
         // Client ID should be in env, but for now we'll accept any valid token signed by Google
         // In production, PASS THE CLIENT_ID here to ensure token is for THIS app
