@@ -18,6 +18,8 @@ dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
 const ENV = process.env.NODE_ENV || 'development';
+// Trust proxy (Render/Heroku)
+app.set('trust proxy', 1);
 
 // Security middleware
 app.use(helmet({
