@@ -187,7 +187,7 @@ class AuthService {
 
     async loginWithGoogle(idToken: string) {
         // Mock Login for Development
-        if (process.env.NODE_ENV === 'development' && idToken === 'mock-google-id-token-dev') {
+        if ((!process.env.NODE_ENV || process.env.NODE_ENV === 'development') && idToken === 'mock-google-id-token-dev') {
             const user = await userRepository.findByEmail('test.user@example.com');
             if (user) {
                 const tokens = jwtService.generateTokens(user);
