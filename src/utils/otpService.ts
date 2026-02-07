@@ -20,7 +20,13 @@ export class OTPService {
         auth: {
           user: process.env.EMAIL_USER,
           pass: cleanedPass
-        }
+        },
+        // Advanced settings to fix Render timeouts
+        connectionTimeout: 10000, // 10 seconds
+        greetingTimeout: 5000,    // 5 seconds
+        socketTimeout: 10000,     // 10 seconds
+        debug: true,              // Enable debug output
+        logger: true              // Log information to console
       });
     } else {
       console.warn('⚠️ OTP Service: Missing EMAIL_USER or EMAIL_PASS in .env');
