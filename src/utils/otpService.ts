@@ -13,20 +13,14 @@ export class OTPService {
       console.log(`   User: ${process.env.EMAIL_USER}`);
       console.log(`   Pass Length: ${cleanedPass.length} (spaces stripped)`);
 
+      // SendGrid Configuration
       this.transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465, // Changed to 465 for SSL (Render often blocks 587)
-        secure: true, // true for 465, false for other ports
+        host: 'smtp.sendgrid.net',
+        port: 587,
         auth: {
-          user: process.env.EMAIL_USER,
-          pass: cleanedPass
-        },
-        // Advanced settings to fix Render timeouts
-        connectionTimeout: 10000, // 10 seconds
-        greetingTimeout: 5000,    // 5 seconds
-        socketTimeout: 10000,     // 10 seconds
-        debug: true,              // Enable debug output
-        logger: true              // Log information to console
+          user: 'apikey',
+          pass: process.env.SENDGRID_API_KEY
+        }
       });
     } else {
       console.warn('⚠️ OTP Service: Missing EMAIL_USER or EMAIL_PASS in .env');
@@ -50,7 +44,7 @@ export class OTPService {
       }
 
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: process.env.EMAIL_FROM || 'niteshkaushik0210@gmail.com', // Fallback to hardcoded if env missing
         to: email,
         subject: 'ReVeda - Verify Your Account',
         html: `
