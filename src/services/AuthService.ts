@@ -80,7 +80,8 @@ class AuthService {
         const userRole = user.role as any;
 
         if (userRole?.name === 'Doctor' && !user.isVerified) {
-            throw new Error('Your account is pending Admin approval. Please wait for verification.');
+            // Admin verification disabled for now as per user request
+            // throw new Error('Your account is pending Admin approval. Please wait for verification.');
         }
 
         // Generate/Update OTP
