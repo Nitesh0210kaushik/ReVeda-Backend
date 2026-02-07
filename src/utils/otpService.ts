@@ -6,15 +6,24 @@ export class OTPService {
   constructor() {
     // Only initialize transporter if email credentials are provided
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      // sanitize password by removing spaces
+      const cleanedPass = process.env.EMAIL_PASS.replace(/\s+/g, '');
+
+      console.log(`📧 OTP Service Initializing...`);
+      console.log(`   User: ${process.env.EMAIL_USER}`);
+      console.log(`   Pass Length: ${cleanedPass.length} (spaces stripped)`);
+
       this.transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
           user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
+          pass: cleanedPass
         }
       });
+    } else {
+      console.warn('⚠️ OTP Service: Missing EMAIL_USER or EMAIL_PASS in .env');
     }
   }
 

@@ -1,6 +1,7 @@
+import 'dotenv/config'; // Load env vars before any other imports
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv'; // Removed as we use import 'dotenv/config'
 import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './db/db';
@@ -12,8 +13,8 @@ import path from 'path';
 import User from './models/User';
 import Role from './models/Role';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables - Moved to top
+// dotenv.config();
 
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
