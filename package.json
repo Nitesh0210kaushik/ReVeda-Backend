@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "nodemon src/index.ts",
+    "dev": "concurrently \"mongod --dbpath C:/Users/NITESH~1/AppData/Local/Temp/reveda_mongo --bind_ip 127.0.0.1\" \"nodemon src/index.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -39,6 +39,7 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^25.0.5",
     "@types/nodemailer": "^6.4.14",
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

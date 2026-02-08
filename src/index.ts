@@ -31,7 +31,9 @@ app.use(helmet({
 const allowedOrigins = [
     'http://localhost:3000', // Development Frontend
     'https://reveda-doctor-form.onrender.com', // Doctor Registration Website
-    process.env.FRONTEND_URL // Production Frontend
+    process.env.FRONTEND_URL, // Production Frontend
+    'http://192.168.1.11:8081', // Expo Go (Local)
+    'http://192.168.1.11:5000'  // Local API Access
 ].filter(Boolean);
 
 app.use(cors({
