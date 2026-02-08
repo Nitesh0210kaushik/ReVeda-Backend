@@ -10,13 +10,19 @@ export class OTPService {
       const cleanedPass = process.env.EMAIL_PASS.replace(/\s+/g, '');
 
       console.log(`📧 OTP Service Initializing...`);
-      console.log(`   User: ${process.env.EMAIL_USER}`);
-      console.log(`   Pass Length: ${cleanedPass.length} (spaces stripped)`);
+      console.log(`   Detailed Debugging:`);
+      console.log(`   - EMAIL_USER (Gmail): ${process.env.EMAIL_USER}`);
+      console.log(`   - SENDGRID_API_KEY Present: ${!!process.env.SENDGRID_API_KEY}`);
+      if (process.env.SENDGRID_API_KEY) {
+        console.log(`   - SENDGRID_API_KEY Length: ${process.env.SENDGRID_API_KEY.length}`);
+      }
+      console.log(`   - EMAIL_FROM: ${process.env.EMAIL_FROM}`);
 
       // SendGrid Configuration
+      // Using Port 2525 which is often better for cloud environments
       this.transporter = nodemailer.createTransport({
         host: 'smtp.sendgrid.net',
-        port: 587,
+        port: 2525,
         auth: {
           user: 'apikey',
           pass: process.env.SENDGRID_API_KEY
